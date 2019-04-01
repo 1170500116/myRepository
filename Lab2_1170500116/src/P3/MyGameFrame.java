@@ -130,8 +130,8 @@ public class  MyGameFrame extends Frame implements MouseListener, MouseMotionLis
 				if(780<=location_x&&location_x<=1080&&655<=location_y&&location_y<=887) {					
 					g.drawImage(Constant.start, 780, 655 ,305, 235, null);
 				}
-				g.drawRect(120, 390, 440, 95);
-				g.drawRect(115, 620, 450, 90);
+				//g.drawRect(120, 390, 440, 95);
+				//g.drawRect(115, 620, 450, 90);
 				//g.drawRect(780, 655,300, 232);
 			}else if(period==2) {
 				if(Constant.ss.equals("go")) {					
@@ -173,7 +173,7 @@ public class  MyGameFrame extends Frame implements MouseListener, MouseMotionLis
 					
 					g.drawString(""+p2.getQizion().size(), 210, 845);
 					g.drawString(""+p1.getQizion().size(), 550, 845);
-					g.drawRect((int)Constant.corigin_x,(int)Constant.corigin_y, (int)Constant.cbuchang*8, (int)Constant.cbuchang*8);
+					//g.drawRect((int)Constant.corigin_x,(int)Constant.corigin_y, (int)Constant.cbuchang*8, (int)Constant.cbuchang*8);
 					g.drawImage(mouse, location_x-16, location_y-16 , 32, 32, null);
 				}else {
 					g.drawImage(Constant.dabai,0,00,Constant.GAME_WIDTH,Constant.GAME_HEIGHT,  null);
