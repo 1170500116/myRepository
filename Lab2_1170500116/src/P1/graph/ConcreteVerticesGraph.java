@@ -4,6 +4,7 @@
 package P1.graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,18 +23,33 @@ public class ConcreteVerticesGraph<L> implements Graph<L> {
     private final List<Vertex<L>> vertices = new ArrayList<>();
     
     // Abstraction function:
-    //   TODO
+    //  represent a graph with vertices,every vertrice has its vex,sources and targets
+   
     // Representation invariant:
-    //   TODO
+    //  vertices is not null
+    
     // Safety from rep exposure:
-    //   TODO
+    //  vertices is private final;
+    //  vertices are mutable
+    //  make defensive copies or make Collections.unmodifiableMap to avoid sharing the rep object with clients.
     
     // TODO constructor
     public  ConcreteVerticesGraph() {
     	super();
+    	checkRep();
     }
     
     // TODO checkRep
+    private void checkRep() {
+    	if(vertices==null) {
+    		try {
+				throw new Exception("vertices=null");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    }
     
     @Override public boolean add(L vertex) {
     	int fa = 0;
@@ -44,8 +60,10 @@ public class ConcreteVerticesGraph<L> implements Graph<L> {
         }
         if(fa==0) {
         	vertices.add(new Vertex(vertex));
+        	checkRep();
         	return true;
         }
+        checkRep();
         return false;
     }
     
@@ -123,6 +141,7 @@ public class ConcreteVerticesGraph<L> implements Graph<L> {
     			
     		}
     	}
+    	checkRep();
     	return ans;
         
     }
@@ -155,8 +174,10 @@ public class ConcreteVerticesGraph<L> implements Graph<L> {
         			}
         		}
         	}
+        	checkRep();
         	return true;
     	}
+    	checkRep();
     	return false;
     	
     }
@@ -165,7 +186,8 @@ public class ConcreteVerticesGraph<L> implements Graph<L> {
     	Set<L> set =new HashSet<L>();
     	for(int i=0;i<vertices.size();i++) {
     		set.add(vertices.get(i).getVex());
-    	}       
+    	}      
+    	checkRep();
     	return set;
     }
     
@@ -176,6 +198,7 @@ public class ConcreteVerticesGraph<L> implements Graph<L> {
     			map = vertices.get(i).getSources();
     		}
     	}  
+    	checkRep();
     	return map;
     	
     }
@@ -187,10 +210,12 @@ public class ConcreteVerticesGraph<L> implements Graph<L> {
 				map = vertices.get(i).getTargets();
 			}
 		}  
+    	checkRep();
 		return map;
     }
 
 	public List<Edge<L>> getEdges(){
+		checkRep();
 		return null;
 	}
 	
@@ -215,7 +240,8 @@ public class ConcreteVerticesGraph<L> implements Graph<L> {
     		
     		
     	}
-    	sb.append("]");  
+    	sb.append("]");
+    	checkRep();
     	return sb.toString();    	
 	}
 
@@ -231,54 +257,77 @@ public class ConcreteVerticesGraph<L> implements Graph<L> {
  * <p>PS2 instructions: the specification and implementation of this class is
  * up to you.
  */
+
 class Vertex<L> {
 	
     // TODO fields
-	private L vex;
-	private Map<L,Integer> sources = new HashMap<>();
-	private Map<L,Integer> targets = new HashMap<>();;
+	private final L vex;
+	private final Map<L,Integer> sources = new HashMap<>();
+	private  final Map<L,Integer> targets = new HashMap<>();
 	
     
     // Abstraction function:
-    //   represents the vertex with sources and targets 
+    //    AF(vex,sources,targets) =  represents the vertex with sources and targets 
+    //                                 
     // Representation invariant:
-    //   TODO
-    // Safety from rep exposure:
-    //   TODO
-    
-    // TODO constructor
-	public Vertex() {
-		
-	}
+    // the vex is not null
 	
+  
+    // Safety from rep exposure:
+    //   All fields are private and final,vex is immutable ;   
+    //   sources and targets are  mutable 
+    //   the other methods make defensive copies or make unmodifiableMap to avoid sharing the rep's L object with clients.
+	
+    // TODO constructor	
     public Vertex(L vex) {
 		super();
-		this.vex = vex;		
+		this.vex = vex;	
+		checkRep();
 	}
 
 	public Vertex(L vex, Map<L, Integer> sources, Map<L, Integer> targets) {
 		super();
 		this.vex = vex;
-		this.sources = sources;
-		this.targets = targets;
+		final Map<L,Integer> s = new HashMap<>();
+		for(L it :sources.keySet()) {
+			s.put(it, sources.get(it)); 
+		}
+		this.sources.putAll(s);
+		final Map<L,Integer> t = new HashMap<>();
+		for(L it :targets.keySet()) {
+			s.put(it, targets.get(it)); 
+		}
+		this.targets.putAll(t);
+		checkRep();
 	}
 
 	// TODO checkRep
+	public void checkRep() {
+		if(this.vex==null) {
+    		try {
+				throw new Exception("vex=null");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+	}
     
-    
-    
-    public L getVex() {
+    public L getVex() {    
     	Vertex<L> now =new Vertex<L>(this.vex);
+    	checkRep();
 		return now.vex;
+	
 	}    
     
-    public Map<L, Integer> getSources() {
-    	Vertex<L> now =new Vertex<L>(this.vex,this.sources,this.targets);
-		return now.sources;
+    public Map<L, Integer> getSources() {    	
+    	checkRep();
+    	return Collections.unmodifiableMap(this.sources);    
+		
 	}
-	public Map<L, Integer> getTargets() {
-		Vertex<L> now =new Vertex<L>(this.vex,this.sources,this.targets);
-		return now.targets;
+	public Map<L, Integer> getTargets() {	
+		checkRep();
+		return Collections.unmodifiableMap(this.targets);   
 	}
 
 
@@ -286,22 +335,34 @@ class Vertex<L> {
     public void addSources(L now,Integer weight) {
     	if(weight!=0) {
     		this.sources.put(now, weight); 
-    	}    	   	
+    	}  
+    	checkRep();
     }
     public void addSources(Map<L, Integer> sources) {
     	if(sources!=null) {
-    		this.sources.putAll(sources);
+    		final Map<L,Integer> s = new HashMap<>();
+    		for(L it :sources.keySet()) {
+    			s.put(it, sources.get(it)); 
+    		}
+    		this.sources.putAll(s);
     	}		
+    	checkRep();
 	}
     public void addTargets(L now,Integer weight) {
     	if(weight!=0) {
     		this.targets.put(now, weight); 
-    	}    	   	
+    	}    	   
+    	checkRep();
     }
     public void addTargets(Map<L, Integer> sources) {
     	if(targets!=null) {
-    		this.targets.putAll(sources);
-    	}		
+    		final Map<L,Integer> s = new HashMap<>();
+    		for(L it :sources.keySet()) {
+    			s.put(it, sources.get(it)); 
+    		}
+    		this.targets.putAll(s);
+    	}	
+    	checkRep();
 	}
     
     public void setSources(L now,Integer weight) {
@@ -321,6 +382,7 @@ class Vertex<L> {
     		}
     		  		
     	}
+    	checkRep();
     }
   
     public void setTargets(L now,Integer weight) {
@@ -339,7 +401,8 @@ class Vertex<L> {
         		}   
     		}
     		 		
-    	}   	   	
+    	}  
+    	checkRep();
     }
    
     
@@ -360,7 +423,9 @@ class Vertex<L> {
 			  sb.append("["+key+","+targets.get(key)+"]");
 		}
     	sb.append("]");
-    	return sb.toString();		
+    	checkRep();
+    	return sb.toString();	
+    	
 	}
     
 }

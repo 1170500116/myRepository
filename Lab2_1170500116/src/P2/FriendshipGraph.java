@@ -2,14 +2,14 @@ package P2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+
+
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 import P1.graph.ConcreteEdgesGraph;
-import P1.graph.Edge;
+
 import P1.graph.Graph;
 
 public class FriendshipGraph {
@@ -128,30 +128,7 @@ public class FriendshipGraph {
 		graph.addEdge(ross, rachel);
 		graph.addEdge(ross, ben);
 		graph.addEdge(ben, ross);
-//		System.out.println(graph.g.toString());
-//		
-//			StringBuffer sb = new StringBuffer("");
-//			sb.append("ConcreteEdgesGraph [vertices=");
-//			sb.append(graph.g.vertices());
-//			sb.append(", edges=[ ");
-//			
-//			for(int i=0;i<graph.g.getEdges().size();i++) {
-//				sb.append("[");
-//				sb.append(graph.g.getEdges().get(i).getSource().getName()+",");
-//				sb.append(graph.g.getEdges().get(i).getTarget().getName()+",");
-//				sb.append(graph.g.getEdges().get(i).getWeight()+",");
-//				sb.append("]");
-//				if(i==graph.g.getEdges().size()-1) {
-//					sb.append(" ]");
-//				}else {
-//					sb.append(" ");
-//				}
-//			}
-//			if(graph.g.getEdges().size()==0) {
-//				sb.append("]");
-//			}
-//			sb.append("]");
-//	System.out.println(sb.toString());	
+
 			
 		
 		System.out.println(graph.getDistance(rachel, ross)); 

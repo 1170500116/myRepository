@@ -4,14 +4,12 @@ import java.awt.Frame;
 
 
 import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.Color;
 import java.awt.Font;
@@ -43,7 +41,7 @@ public class  MyGameFrame extends Frame implements MouseListener, MouseMotionLis
 		@Override
 		public void paint(Graphics g) {
 			super.paint(g);
-			Color c = g.getColor();
+		
 			g.setColor( Color.pink);	
 			Font mf = new Font("Stylus BT", Font.PLAIN,90);
 			Font mff = new Font("Stylus BT", Font.BOLD,90);

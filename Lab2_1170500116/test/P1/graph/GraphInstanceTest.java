@@ -23,9 +23,6 @@ import org.junit.Test;
  */
 public abstract class GraphInstanceTest {
     
-    // Testing strategy
-    //   TODO
-    
     /**
      * Overridden by implementation-specific test classes.
      * 
@@ -81,13 +78,20 @@ public abstract class GraphInstanceTest {
 		ceg.add("cc");
 		
 		
-		assertEquals(ceg.set("a", "bb", 0),0);		
-		assertEquals(ceg.set("a", "bb", 1),0);		
+		assertEquals(ceg.set("a", "bb", 0),0);	
+		
+		assertEquals(ceg.set("a", "bb", 1),0);
+	
 		assertEquals(ceg.set("a", "cc", 2),0);		
 		assertEquals(ceg.set("a", "dd", 3),0);
-		assertEquals(ceg.set("ee", "dd", 3),0);	 			
+		
+		assertEquals(ceg.set("ee", "dd", 3),0);	 
+	
+		
 	    assertEquals(ceg.set("a", "bb", 0),1);
-		assertEquals( ceg.set("a", "dd", 2),3);		
+	  //  System.out.println(ceg.toString());
+		assertEquals( ceg.set("a", "dd", 2),3);	
+		
 		assertEquals( ceg.set("a", "a", 3),0);
 		
 	}

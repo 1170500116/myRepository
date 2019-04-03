@@ -38,14 +38,19 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
     @Test
 	  public void testToString() {
 	  	 Graph<String> ceg = emptyInstance();	
+	
 	  	assertEquals("ConcreteEdgesGraph [vertices=[], edges=[ ]]",ceg.toString());
 	  	ceg.add("a");
+	
 	  	assertEquals("ConcreteEdgesGraph [vertices=[a], edges=[ ]]",ceg.toString());
 	  	ceg.add("bb");
+	  	
 	  	assertEquals("ConcreteEdgesGraph [vertices=[bb, a], edges=[ ]]",ceg.toString());
 		ceg.add("c");
+		
 		assertEquals("ConcreteEdgesGraph [vertices=[bb, a, c], edges=[ ]]",ceg.toString());
 	  	ceg.set("a", "bb", 1);
+	 
 	  	assertEquals("ConcreteEdgesGraph [vertices=[bb, a, c], edges=[ [a,bb,1,] ]]",ceg.toString());
 	  	ceg.set("a", "cc", 2);
 		assertEquals("ConcreteEdgesGraph [vertices=[bb, cc, a, c], edges=[ [a,bb,1,] [a,cc,2,] ]]",ceg.toString());
@@ -59,12 +64,40 @@ public class ConcreteEdgesGraphTest extends GraphInstanceTest {
      */
     
     // Testing strategy for Edge
-   
-   
-    	
+    // For Edge( L source, L target, int weight)
+    //			the source is null or not
+    //          the target is null or not
+    //          the weight is <=0 or not
+    // For getters, test if there is any rep exposure
+    // For toString, test along within the tests for operations of Vertex as an anwser quiz  	
     
     // TODO tests for operations of Edge
     
+    @Test
+	public void testEdge() {
+    	String a = "a";
+    	String b = "b";
+    	Edge<String> eg = new Edge<String>(a, b, 1);  
+    	assertEquals(eg.toString(),"Edge [source=a, target=b, weight=1]");
+    	assertEquals(eg.getSource(),"a");
+    	String c = eg.getSource();
+    	c= "c";
+    	assertEquals(eg.getSource(),"a");
+    	assertEquals(eg.toString(),"Edge [source=a, target=b, weight=1]");
+
+    	assertEquals(eg.getTarget(),"b");
+    	c = eg.getTarget();
+    	c = "c";
+    	assertEquals(eg.getTarget(),"b");
+    	assertEquals(eg.toString(),"Edge [source=a, target=b, weight=1]");
+    	
+    	assertEquals(eg.getWeight(),1);
+    	int w = eg.getWeight();
+    	w = 5;
+    	assertEquals(eg.getWeight(),1);
+    	assertEquals(eg.toString(),"Edge [source=a, target=b, weight=1]");
+    	//Edge<String> eg1 = new Edge<String>(a, b, 0);		
+    }
     
  
 

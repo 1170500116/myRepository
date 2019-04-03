@@ -62,12 +62,24 @@ public class GraphPoet {
     private final Graph<String> graph = Graph.empty();
     
     // Abstraction function:
-    //   TODO
+    //   GraphPoet is initialized with a corpus of text, which it uses to derive a
+    // word affinity graph.
     // Representation invariant:
-    //   TODO
+    //   graph is not null
     // Safety from rep exposure:
-    //   TODO
-    
+    //   graph is private final ;
+    //   make defensive copies or make Collections.unmodifiableMap to avoid sharing the rep object with clients.
+	 // TODO checkRep
+	    private void checkRep() {    	
+	    	if(graph==null) {
+	    		try {
+					throw new Exception("graph=null");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	}    	
+	    }
     /**
      * Create a new poet with the graph from corpus (as described above).
      * 
@@ -104,10 +116,11 @@ public class GraphPoet {
 				graph.set(spString[i], spString[i+1], 1);
 			}
 		}	
+		bis.close();
+		checkRep();
 	    //System.out.println(graph.toString());
     }
     
-    // TODO checkRep
     
     /**
      * Generate a poem.
@@ -153,9 +166,10 @@ public class GraphPoet {
 			
 		}
 		ans.append(spString[spString.length-1]);
+		checkRep();
 		return ans.toString();
     }
     
-    // TODO toString()
+    
     
 }

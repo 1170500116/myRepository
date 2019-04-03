@@ -15,8 +15,6 @@ import org.junit.Test;
  */
 public class GraphPoetTest {
     
-    // Testing strategy
-    //   TODO
     
     @Test(expected=AssertionError.class)
     public void testAssertionsEnabled() {

@@ -4,6 +4,7 @@
 package P1.graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,26 +23,53 @@ public class ConcreteEdgesGraph<L> implements Graph<L> {
     private final List<Edge<L>> edges = new ArrayList<>();
  
     // TODO constructor
-    public ConcreteEdgesGraph() {
+    public ConcreteEdgesGraph() {    	
     	super();
+    	checkRep();
 	}
     public List<Edge<L>>  getEdges() {
-    	return edges;
+    	checkRep();
+    	return Collections.unmodifiableList(edges);
     }
 
-	// Abstraction function:
-    //   TODO
+	
+    // Abstraction function:
+    //  represent a graph with vertices and edges
+   
     // Representation invariant:
-    //   TODO
+    //  vertices is not null
+    //  edges is not null
+    
     // Safety from rep exposure:
-    //   TODO
+    //  vertices and edges are private final;
+    //  vertices and edges are mutable
+    //  make defensive copies or make Collections.unmodifiableMap to avoid sharing the rep object with clients.
     
     
     
     // TODO checkRep
+    private void checkRep() {    	
+    	if(vertices==null) {
+    		try {
+				throw new Exception("vertices=null");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	if(edges==null) {
+    		try {
+				throw new Exception("edges=null");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    }
     
-    @Override public  boolean add(L vertex) {    
-    	   return vertices.add(vertex);    	
+    @Override public  boolean add(L vertex) {   
+    	checkRep();
+    	return vertices.add(vertex);    	
     }
 
     @Override public int set(L source, L target, int weight) {
@@ -54,19 +82,27 @@ public class ConcreteEdgesGraph<L> implements Graph<L> {
         		if(edges.get(i).getSource().equals(source)&&edges.get(i).getTarget().equals(target)) {
         			int ans = edges.get(i).getWeight();
         			edges.remove(i);
+        			checkRep();
         			return ans;
         		}
         	}
+        	checkRep();
         	return 0;
-        }else {        	
+        }else {     
+        	//System.out.println(edges.size());
         	for(int i=0;i<edges.size();i++) {
+        		//System.out.println(edges.get(i).getSource());
         		if(edges.get(i).getSource().equals(source)&&edges.get(i).getTarget().equals(target)) {
         			int ans = edges.get(i).getWeight();
-        			edges.get(i).setWeight(weight);
+        			//System.out.println(source);
+        			edges.set(i,new Edge<L>(source,target,ans));
+        			//edges.get(i).setWeight(weight);
+        			checkRep();
         			return ans;
         		}
         	}
         	edges.add(new Edge<L>(source,target,weight));        	
+        	checkRep();
         	return 0;
         }
     }
@@ -80,9 +116,11 @@ public class ConcreteEdgesGraph<L> implements Graph<L> {
 				if(test.getSource().equals(vertex)||test.getTarget().equals(vertex)) {
 					iter.remove();
 				}
-			}			
+			}	
+			checkRep();
 			return true;
 		}else {
+			checkRep();
 			return false;
 		}
     }
@@ -94,12 +132,16 @@ public class ConcreteEdgesGraph<L> implements Graph<L> {
     	  L str = it.next();  
     	  myver.add(str);
     	} 
+    	checkRep();
         return myver;
     }
+    
+    
   //If vertices does not contains target,return a null map.
     @Override public Map<L, Integer> sources(L target) {
     	 Map<L, Integer>  map = new HashMap<>();
     	 if(!vertices.contains(target)) {
+    		 checkRep();
     		 return map;
     	 }
        for(int i=0;i<edges.size();i++) {
@@ -107,12 +149,16 @@ public class ConcreteEdgesGraph<L> implements Graph<L> {
 				map.put(edges.get(i).getSource(), edges.get(i).getWeight());
 			}
        }
+   	   checkRep();
        return map;
     }
+    
+    
     //If vertices does not contains source,return a null map.
     @Override public Map<L, Integer> targets(L source) {
     	 Map<L, Integer>  map = new HashMap<>();
     	 if(!vertices.contains(source)) {
+    		 checkRep();
     		 return map;
     	 }
          for(int i=0;i<edges.size();i++) {
@@ -120,6 +166,7 @@ public class ConcreteEdgesGraph<L> implements Graph<L> {
   				map.put(edges.get(i).getTarget(), edges.get(i).getWeight());
   			}
          }
+         checkRep();
          return map;
     }
 
@@ -147,6 +194,7 @@ public class ConcreteEdgesGraph<L> implements Graph<L> {
 		}
 		sb.append("]");
 		String s = sb.toString();
+		checkRep();
 		return s;
 	}
     
